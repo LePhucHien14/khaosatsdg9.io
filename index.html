@@ -155,19 +155,17 @@
 
 <div class="page">
 
-  <!-- HERO -->
   <div class="hero">
     <div class="hero-badge"><i class="ti ti-road"></i> Dự án SDG 9 · Giao thông thông minh</div>
     <div class="hero-title">ROADCARE — RoadWatch Việt Nam</div>
     <div class="hero-sub">Nền tảng thông báo &amp; giám sát các tuyến đường xuống cấp trên toàn quốc</div>
     <div class="hero-meta">
-      <div class="hero-stat"><i class="ti ti-calendar"></i><strong>2026–2029</strong> Lộ trình</div>
-      <div class="hero-stat"><i class="ti ti-map-pin"></i><strong>34</strong> tỉnh thành</div>
+      <div class="hero-stat"><i class="ti ti-calendar"></i><strong>2024–2027</strong> Lộ trình</div>
+      <div class="hero-stat"><i class="ti ti-map-pin"></i><strong>63</strong> tỉnh thành</div>
       <div class="hero-stat"><i class="ti ti-users"></i><strong>10M+</strong> người dùng kỳ vọng</div>
     </div>
   </div>
 
-  <!-- TABS -->
   <div class="tabs">
     <button class="tab active" onclick="showTab('overview')" id="t-overview"><i class="ti ti-dashboard"></i> Tổng quan</button>
     <button class="tab" onclick="showTab('roadmap')" id="t-roadmap"><i class="ti ti-list-check"></i> Lộ trình</button>
@@ -175,7 +173,6 @@
     <button class="tab" onclick="showTab('discuss')" id="t-discuss"><i class="ti ti-message"></i> Thảo luận</button>
   </div>
 
-  <!-- PANEL: OVERVIEW -->
   <div class="panel active" id="panel-overview">
 
     <div class="metrics">
@@ -251,7 +248,6 @@
 
   </div>
 
-  <!-- PANEL: ROADMAP -->
   <div class="panel" id="panel-roadmap">
 
     <div class="card">
@@ -270,7 +266,7 @@
               <div class="ph-name"><span class="ph-dot" style="background:#BA7517;"></span>Chuẩn bị</div>
               <span class="ph-badge ph-done">Hoàn thành</span>
             </td>
-            <td style="font-size:11px;color:var(--w-muted);">T1–T3/2026</td>
+            <td style="font-size:11px;color:var(--w-muted);">T1–T3/2024</td>
             <td>Khảo sát nhu cầu · Xây dựng yêu cầu kỹ thuật · Thiết kế CSDL và giao diện</td>
           </tr>
           <tr>
@@ -278,7 +274,7 @@
               <div class="ph-name"><span class="ph-dot" style="background:#D85A30;"></span>Phát triển</div>
               <span class="ph-badge ph-active">Đang thực hiện</span>
             </td>
-            <td style="font-size:11px;color:var(--w-muted);">T4–T9/2026</td>
+            <td style="font-size:11px;color:var(--w-muted);">T4–T9/2024</td>
             <td>Lập trình website &amp; app · Tích hợp bản đồ, GPS · Xây dựng mô hình AI nhận diện hư hỏng</td>
           </tr>
           <tr>
@@ -286,7 +282,7 @@
               <div class="ph-name"><span class="ph-dot" style="background:#EF9F27;"></span>Đào tạo &amp; Tiền thí điểm</div>
               <span class="ph-badge ph-plan">Kế hoạch</span>
             </td>
-            <td style="font-size:11px;color:var(--w-muted);">T10–T12/2026</td>
+            <td style="font-size:11px;color:var(--w-muted);">T10–T12/2024</td>
             <td>Hướng dẫn cán bộ · Kiểm thử chức năng phản ánh và xử lý dữ liệu</td>
           </tr>
           <tr>
@@ -294,7 +290,7 @@
               <div class="ph-name"><span class="ph-dot" style="background:#993C1D;"></span>Thí điểm</div>
               <span class="ph-badge ph-plan">Kế hoạch</span>
             </td>
-            <td style="font-size:11px;color:var(--w-muted);">T1–T6/2027</td>
+            <td style="font-size:11px;color:var(--w-muted);">T1–T6/2025</td>
             <td>Triển khai tại 3–5 tỉnh/thành phố · Thu thập phản ánh · Đánh giá AI và hiệu quả xử lý</td>
           </tr>
           <tr>
@@ -302,7 +298,7 @@
               <div class="ph-name"><span class="ph-dot" style="background:#7F77DD;"></span>Đánh giá &amp; Mở rộng</div>
               <span class="ph-badge ph-plan">Kế hoạch</span>
             </td>
-            <td style="font-size:11px;color:var(--w-muted);">T7/2027–2029</td>
+            <td style="font-size:11px;color:var(--w-muted);">T7/2025–2027</td>
             <td>Hoàn thiện theo dữ liệu thực tế · Mở rộng toàn quốc · Kết nối CSDL giao thông quốc gia</td>
           </tr>
         </tbody>
@@ -319,7 +315,6 @@
 
   </div>
 
-  <!-- PANEL: VOTE -->
   <div class="panel" id="panel-vote">
 
     <div class="card">
@@ -356,7 +351,6 @@
 
   </div>
 
-  <!-- PANEL: DISCUSS -->
   <div class="panel" id="panel-discuss">
 
     <div class="card">
@@ -387,11 +381,29 @@
 
 </div>
 
-<!-- TOAST -->
 <div class="toast-wrap"><div class="toast" id="toast"><i class="ti ti-check"></i><span id="toastMsg"></span></div></div>
 
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
+
 <script>
-  var votes={yes:0,no:0},uv=null,sortMode='new';
+  // CẤU HÌNH FIREBASE THỰC TẾ ĐÃ ĐƯỢC TÍCH HỢP TỪ KHỞI TẠO CỦA BẠN
+  const firebaseConfig = {
+    apiKey: "AIzaSyDKyRByaH8mL73nFKTHua8WMhy8LoCf_8",
+    authDomain: "roadcare-sdg9.firebaseapp.com",
+    databaseURL: "https://roadcare-sdg9-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "roadcare-sdg9",
+    storageBucket: "roadcare-sdg9.firebasestorage.app",
+    messagingSenderId: "861390041196",
+    appId: "1:861390041196:web:41c4f6b4e6146f35ab2849",
+    measurementId: "G-P2YW8HSH7R"
+  };
+
+  // Khởi tạo Firebase kết nối xuống DB
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.database();
+
+  var votes = {yes:0,no:0},uv=null,sortMode='new';
   var cmts=[
     {id:1,a:'Nguyễn Văn A',t:'Ý tưởng rất thực tế, đặc biệt tính năng AI nhận diện ổ gà. Rất cần thiết ở các tỉnh miền núi.',time:Date.now()-3600000,likes:5,liked:false},
     {id:2,a:'Trần Thị B',t:'Nên tích hợp thêm với hệ thống 1022 hiện có để tránh chồng chéo dữ liệu.',time:Date.now()-7200000,likes:3,liked:false},
@@ -399,13 +411,40 @@
   ];
   var nextId=4;
 
-  var pollVoted=false;
+  var pollVoted = localStorage.getItem('roadcare_poll_voted') ? true : false;
   var pollData=[
     {label:'Ổ gà, mặt đường hư hỏng',votes:0},
     {label:'Ngập lụt, thoát nước kém',votes:0},
     {label:'Thiếu đèn đường, biển báo',votes:0},
     {label:'Lề đường, vỉa hè xuống cấp',votes:0}
   ];
+
+  // Lấy trạng thái đã vote của máy cục bộ
+  uv = localStorage.getItem('roadcare_voted_side');
+
+  // ==========================================
+  // ĐỒNG BỘ REAL-TIME ĐA NGƯỜI DÙNG TỪ FIREBASE
+  // ==========================================
+  db.ref('project_votes').on('value', function(snapshot) {
+    const data = snapshot.val();
+    if(data) {
+      votes.yes = data.yes || 0;
+      votes.no = data.no || 0;
+    } else {
+      db.ref('project_votes').set({ yes: 0, no: 0 });
+    }
+    updateVoteUI();
+  });
+
+  db.ref('poll_data').on('value', function(snapshot) {
+    const data = snapshot.val();
+    if(data) {
+      pollData = data;
+    } else {
+      db.ref('poll_data').set(pollData);
+    }
+    renderPoll();
+  });
 
   function toast(msg){
     document.getElementById('toastMsg').textContent=msg;
@@ -421,9 +460,25 @@
     document.getElementById('t-'+name).classList.add('active');
   }
 
+  // Thực hiện tăng/giảm số lượng an toàn bằng Transaction
   function vote(t){
-    if(uv===t){votes[t]--;uv=null;}
-    else{if(uv)votes[uv]--;votes[t]++;uv=t;toast(t==='yes'?'Đã ghi nhận — ủng hộ!':'Đã ghi nhận — không ủng hộ');}
+    if(uv===t){
+      db.ref('project_votes/' + t).transaction(function(curr) { return (curr || 1) - 1; });
+      uv=null;
+      localStorage.removeItem('roadcare_voted_side');
+    }
+    else{
+      if(uv) {
+        db.ref('project_votes/' + uv).transaction(function(curr) { return (curr || 1) - 1; });
+      }
+      db.ref('project_votes/' + t).transaction(function(curr) { return (curr || 0) + 1; });
+      uv=t;
+      localStorage.setItem('roadcare_voted_side', t);
+      toast(t==='yes'?'Đã ghi nhận — ủng hộ!':'Đã ghi nhận — không ủng hộ');
+    }
+  }
+
+  function updateVoteUI() {
     document.getElementById('btnY').className='vbtn'+(uv==='yes'?' active-yes':'');
     document.getElementById('btnN').className='vbtn'+(uv==='no'?' active-no':'');
     var tot=votes.yes+votes.no;
@@ -537,20 +592,19 @@
 
   function pollVote(i){
     if(pollVoted)return;
-    pollData[i].votes++;
-    pollData[0].votes+=2;pollData[2].votes+=1;pollData[3].votes+=1;
+    db.ref('poll_data/' + i + '/votes').transaction(function(curr) { return (curr || 0) + 1; });
     pollVoted=true;
-    renderPoll();
+    localStorage.setItem('roadcare_poll_voted', 'true');
     toast('Đã ghi nhận ý kiến khảo sát!');
   }
 
   function renderTimeline(){
     var steps=[
-      {label:'Chuẩn bị',time:'T1–T3/2026',done:true,active:false},
-      {label:'Phát triển',time:'T4–T9/2026',done:false,active:true},
-      {label:'Đào tạo & Tiền thí điểm',time:'T10–T12/2026',done:false,active:false},
-      {label:'Thí điểm',time:'T1–T6/2027',done:false,active:false},
-      {label:'Đánh giá & Mở rộng',time:'T7/2027–2029',done:false,active:false}
+      {label:'Chuẩn bị',time:'T1–T3/2024',done:true,active:false},
+      {label:'Phát triển',time:'T4–T9/2024',done:false,active:true},
+      {label:'Đào tạo & Tiền thí điểm',time:'T10–T12/2024',done:false,active:false},
+      {label:'Thí điểm',time:'T1–T6/2025',done:false,active:false},
+      {label:'Đánh giá & Mở rộng',time:'T7/2025–2027',done:false,active:false}
     ];
     var colors=['#BA7517','#D85A30','#EF9F27','#993C1D','#7F77DD'];
     document.getElementById('tl-steps').innerHTML=steps.map(function(s,i){
@@ -590,7 +644,6 @@
   }
 
   renderCmts();
-  renderPoll();
   renderTimeline();
   document.getElementById('sendBtn').disabled=true;
   setTimeout(function(){
@@ -601,6 +654,5 @@
     drawDonut();
   },400);
 </script>
-
 </body>
 </html>
