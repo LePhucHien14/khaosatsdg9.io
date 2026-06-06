@@ -48,6 +48,7 @@
     .mc { background:var(--w-card); border:0.5px solid var(--w-border); border-radius:12px; padding:14px 16px; transition:border-color 0.2s; }
     .mc:hover { border-color:var(--w-border2); }
     .mc-icon { font-size:18px; color:var(--w-accent); margin-bottom:6px; display:block; }
+    .mc-icon-heart { color: var(--w-accent2); }
     .mc-label { font-size:11px; color:var(--w-muted); margin-bottom:4px; font-weight:500; letter-spacing:0.03em; }
     .mc-val { font-size:20px; font-weight:600; color:var(--w-text); line-height:1.1; }
     .mc-unit { font-size:11px; color:var(--w-muted); font-weight:400; }
@@ -111,6 +112,9 @@
     .filter-chip.active, .filter-chip:hover { background:var(--w-accent); color:#FFF3E4; border-color:var(--w-accent); }
 
     /* COMMENT */
+    .name-input-wrap { display: grid; grid-template-columns: 140px 1fr; gap: 10px; margin-bottom: 8px; }
+    .name-input-wrap input { background:var(--w-soft); border:1px solid var(--w-border2); border-radius:10px; padding:8px 12px; font-size:13px; color:var(--w-text); outline:none; font-family:inherit; }
+    .name-input-wrap input:focus { border-color:var(--w-accent); }
     textarea { background:var(--w-soft); border:1px solid var(--w-border2); border-radius:10px; padding:10px 12px; font-size:13px; color:var(--w-text); width:100%; resize:vertical; min-height:68px; outline:none; margin-bottom:8px; font-family:inherit; }
     textarea::placeholder { color:var(--w-muted); }
     textarea:focus { border-color:var(--w-accent); }
@@ -126,7 +130,7 @@
     .cmt-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:4px; }
     .cmt-author { font-size:11px; font-weight:500; color:var(--w-muted); display:flex; align-items:center; gap:4px; }
     .cmt-time { font-size:10px; color:var(--w-muted); opacity:0.7; }
-    .cmt-text { font-size:13px; color:var(--w-text); line-height:1.55; margin-bottom:6px; }
+    .cmt-text { font-size:13px; color:var(--w-text); line-height:1.55; margin-bottom:6px; word-break: break-word; }
     .cmt-like { font-size:11px; color:var(--w-muted); cursor:pointer; display:flex; align-items:center; gap:3px; transition:color 0.15s; padding:2px 0; background:none; border:none; font-family:inherit; }
     .cmt-like:hover, .cmt-like.liked { color:var(--w-accent2); }
 
@@ -160,8 +164,8 @@
     <div class="hero-title">ROADCARE — RoadWatch Việt Nam</div>
     <div class="hero-sub">Nền tảng thông báo &amp; giám sát các tuyến đường xuống cấp trên toàn quốc</div>
     <div class="hero-meta">
-      <div class="hero-stat"><i class="ti ti-calendar"></i><strong>2026–2029</strong> Lộ trình</div>
-      <div class="hero-stat"><i class="ti ti-map-pin"></i><strong>34</strong> tỉnh thành</div>
+      <div class="hero-stat"><i class="ti ti-calendar"></i><strong>2024–2027</strong> Lộ trình</div>
+      <div class="hero-stat"><i class="ti ti-map-pin"></i><strong>63</strong> tỉnh thành</div>
       <div class="hero-stat"><i class="ti ti-users"></i><strong>10M+</strong> người dùng kỳ vọng</div>
     </div>
   </div>
@@ -266,7 +270,7 @@
               <div class="ph-name"><span class="ph-dot" style="background:#BA7517;"></span>Chuẩn bị</div>
               <span class="ph-badge ph-done">Hoàn thành</span>
             </td>
-            <td style="font-size:11px;color:var(--w-muted);">T1–T3/2026</td>
+            <td style="font-size:11px;color:var(--w-muted);">T1–T3/2024</td>
             <td>Khảo sát nhu cầu · Xây dựng yêu cầu kỹ thuật · Thiết kế CSDL và giao diện</td>
           </tr>
           <tr>
@@ -274,7 +278,7 @@
               <div class="ph-name"><span class="ph-dot" style="background:#D85A30;"></span>Phát triển</div>
               <span class="ph-badge ph-active">Đang thực hiện</span>
             </td>
-            <td style="font-size:11px;color:var(--w-muted);">T4–T9/2026</td>
+            <td style="font-size:11px;color:var(--w-muted);">T4–T9/2024</td>
             <td>Lập trình website &amp; app · Tích hợp bản đồ, GPS · Xây dựng mô hình AI nhận diện hư hỏng</td>
           </tr>
           <tr>
@@ -282,7 +286,7 @@
               <div class="ph-name"><span class="ph-dot" style="background:#EF9F27;"></span>Đào tạo &amp; Tiền thí điểm</div>
               <span class="ph-badge ph-plan">Kế hoạch</span>
             </td>
-            <td style="font-size:11px;color:var(--w-muted);">T10–T12/2026</td>
+            <td style="font-size:11px;color:var(--w-muted);">T10–T12/2024</td>
             <td>Hướng dẫn cán bộ · Kiểm thử chức năng phản ánh và xử lý dữ liệu</td>
           </tr>
           <tr>
@@ -290,7 +294,7 @@
               <div class="ph-name"><span class="ph-dot" style="background:#993C1D;"></span>Thí điểm</div>
               <span class="ph-badge ph-plan">Kế hoạch</span>
             </td>
-            <td style="font-size:11px;color:var(--w-muted);">T1–T6/2027</td>
+            <td style="font-size:11px;color:var(--w-muted);">T1–T6/2025</td>
             <td>Triển khai tại 3–5 tỉnh/thành phố · Thu thập phản ánh · Đánh giá AI và hiệu quả xử lý</td>
           </tr>
           <tr>
@@ -354,7 +358,11 @@
   <div class="panel" id="panel-discuss">
 
     <div class="card">
-      <p class="card-title"><i class="ti ti-message"></i>Ý kiến &amp; nhận xét</p>
+      <p class="card-title"><i class="ti ti-message"></i>Ý kiến &amp; nhận xét của bạn</p>
+      <div class="name-input-wrap">
+        <input type="text" id="cAuthor" placeholder="Tên của bạn..." maxlength="25" />
+        <span style="font-size: 11px; color: var(--w-muted); align-self: center; text-align: right; padding-right: 5px;">* Tên hiển thị công khai</span>
+      </div>
       <textarea id="cInput" placeholder="Chia sẻ ý kiến của bạn về dự án ROADCARE..." maxlength="300" oninput="updateChar()"></textarea>
       <div class="cmt-actions">
         <span class="char-count" id="charCount">0 / 300</span>
@@ -387,7 +395,7 @@
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
 
 <script>
-  // CẤU HÌNH FIREBASE THỰC TẾ ĐÃ ĐƯỢC TÍCH HỢP TỪ KHỞI TẠO CỦA BẠN
+  // CẤU HÌNH FIREBASE THỰC TẾ CỦA BẠN
   const firebaseConfig = {
     apiKey: "AIzaSyDKyRByaH8mL73nFKTHua8WMhy8LoCf_8",
     authDomain: "roadcare-sdg9.firebaseapp.com",
@@ -404,12 +412,7 @@
   const db = firebase.database();
 
   var votes = {yes:0,no:0},uv=null,sortMode='new';
-  var cmts=[
-    {id:1,a:'Nguyễn Văn A',t:'Ý tưởng rất thực tế, đặc biệt tính năng AI nhận diện ổ gà. Rất cần thiết ở các tỉnh miền núi.',time:Date.now()-3600000,likes:5,liked:false},
-    {id:2,a:'Trần Thị B',t:'Nên tích hợp thêm với hệ thống 1022 hiện có để tránh chồng chéo dữ liệu.',time:Date.now()-7200000,likes:3,liked:false},
-    {id:3,a:'Lê Minh C',t:'Cần có cơ chế phản hồi từ cơ quan chức năng để người dân biết phản ánh của mình được xử lý.',time:Date.now()-86400000,likes:8,liked:false}
-  ];
-  var nextId=4;
+  var cmts=[]; // Chuyển sang mảng rỗng để tải từ Firebase về theo thời gian thực
 
   var pollVoted = localStorage.getItem('roadcare_poll_voted') ? true : false;
   var pollData=[
@@ -421,10 +424,16 @@
 
   // Lấy trạng thái đã vote của máy cục bộ
   uv = localStorage.getItem('roadcare_voted_side');
+  // Lấy lại tên cũ đã từng nhập để người dùng không phải gõ lại nhiều lần
+  if(localStorage.getItem('roadcare_author_name')){
+    document.getElementById('cAuthor').value = localStorage.getItem('roadcare_author_name');
+  }
 
   // ==========================================
   // ĐỒNG BỘ REAL-TIME ĐA NGƯỜI DÙNG TỪ FIREBASE
   // ==========================================
+  
+  // 1. Đồng bộ số lượt bình chọn ủng hộ/không ủng hộ
   db.ref('project_votes').on('value', function(snapshot) {
     const data = snapshot.val();
     if(data) {
@@ -436,6 +445,7 @@
     updateVoteUI();
   });
 
+  // 2. Đồng bộ kết quả khảo sát nhanh các vấn đề
   db.ref('poll_data').on('value', function(snapshot) {
     const data = snapshot.val();
     if(data) {
@@ -445,6 +455,40 @@
     }
     renderPoll();
   });
+
+  // 3. Đồng bộ danh sách Nhận xét/Thảo luận (MỚI)
+  db.ref('comments').on('value', function(snapshot) {
+    const data = snapshot.val();
+    cmts = [];
+    if(data) {
+      // Chuyển cấu trúc Object từ Firebase sang dạng Mảng (Array) để render thuận tiện
+      for(let key in data) {
+        let localLiked = localStorage.getItem('roadcare_liked_cmt_' + key) ? true : false;
+        cmts.push({
+          id: key,
+          a: data[key].author,
+          t: data[key].text,
+          time: data[key].time,
+          likes: data[key].likes || 0,
+          liked: localLiked
+        });
+      }
+    } else {
+      // Nếu db comments trống, khởi tạo trước 3 bình luận mẫu làm dữ liệu mồi mẫu
+      const sampleCmts = {
+        "sample1": {author: 'Nguyễn Văn A', text: 'Ý tưởng rất thực tế, đặc biệt tính năng AI nhận diện ổ gà. Rất cần thiết ở các tỉnh miền núi.', time: Date.now()-3600000, likes: 5},
+        "sample2": {author: 'Trần Thị B', text: 'Nên tích hợp thêm với hệ thống 1022 hiện có để tránh chồng chéo dữ liệu.', time: Date.now()-7200000, likes: 3},
+        "sample3": {author: 'Lê Minh C', text: 'Cần có cơ chế phản hồi từ cơ quan chức năng để người dân biết phản ánh của mình được xử lý.', time: Date.now()-86400000, likes: 8}
+      };
+      db.ref('comments').set(sampleCmts);
+    }
+    renderCmts();
+  });
+
+
+  // ==========================================
+  // CÁC HÀM XỬ LÝ CHỨC NĂNG CHÍNH
+  // ==========================================
 
   function toast(msg){
     document.getElementById('toastMsg').textContent=msg;
@@ -460,7 +504,6 @@
     document.getElementById('t-'+name).classList.add('active');
   }
 
-  // Thực hiện tăng/giảm số lượng an toàn bằng Transaction
   function vote(t){
     if(uv===t){
       db.ref('project_votes/' + t).transaction(function(curr) { return (curr || 1) - 1; });
@@ -509,34 +552,56 @@
     renderCmts();
   }
 
+  // Hàm render giao diện nhận xét từ mảng dữ liệu lấy từ Firebase về
   function renderCmts(){
     var q=(document.getElementById('cSearch')||{value:''}).value.toLowerCase();
     var list=cmts.slice().filter(function(c){return c.t.toLowerCase().includes(q)||c.a.toLowerCase().includes(q);});
     if(sortMode==='new')list.sort(function(a,b){return b.time-a.time;});
     else if(sortMode==='old')list.sort(function(a,b){return a.time-b.time;});
     else list.sort(function(a,b){return b.likes-a.likes;});
+    
     document.getElementById('cCount').textContent=cmts.length;
     if(list.length===0){document.getElementById('cList').innerHTML='<div class="empty-cmt"><i class="ti ti-message-off" style="font-size:24px;display:block;margin-bottom:6px;"></i>Không tìm thấy nhận xét</div>';return;}
+    
     document.getElementById('cList').innerHTML=list.map(function(c){
       return '<div class="cmt-item">'+
         '<div class="cmt-header">'+
-          '<div class="cmt-author"><i class="ti ti-user-circle" style="font-size:13px;"></i>'+c.a+'</div>'+
+          '<div class="cmt-author"><i class="ti ti-user-circle" style="font-size:13px;"></i>'+escapeHtml(c.a)+'</div>'+
           '<span class="cmt-time">'+timeAgo(c.time)+'</span>'+
         '</div>'+
-        '<p class="cmt-text">'+c.t+'</p>'+
-        '<button class="cmt-like'+(c.liked?' liked':'')+'" onclick="likeComment('+c.id+')">'+
+          '<p class="cmt-text">'+escapeHtml(c.t)+'</p>'+
+        '<button class="cmt-like'+(c.liked?' liked':'')+'" onclick="likeComment(\''+c.id+'\')">'+
           '<i class="ti ti-heart'+(c.liked?'-filled':'')+'" style="font-size:12px;"></i> '+c.likes+' thích'+
         '</button>'+
       '</div>';
     }).join('');
   }
 
+  // Hàm bảo mật chống mã độc XSS khi lưu chuỗi từ người lạ nhập vào
+  function escapeHtml(text) {
+    return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+  }
+
+  // Hàm xử lý tăng/giảm lượt Thích nhận xét đồng bộ trực tiếp lên Firebase Realtime
   function likeComment(id){
     var c=cmts.find(function(x){return x.id===id;});
     if(!c)return;
-    c.liked=!c.liked;
-    c.likes+=c.liked?1:-1;
-    renderCmts();
+    
+    let isLikedNow = !c.liked;
+    
+    db.ref('comments/' + id + '/likes').transaction(function(current_likes) {
+      if(isLikedNow) {
+        return (current_likes || 0) + 1;
+      } else {
+        return Math.max(0, (current_likes || 1) - 1);
+      }
+    });
+
+    if(isLikedNow) {
+      localStorage.setItem('roadcare_liked_cmt_' + id, 'true');
+    } else {
+      localStorage.removeItem('roadcare_liked_cmt_' + id);
+    }
   }
 
   function updateChar(){
@@ -545,14 +610,27 @@
     document.getElementById('sendBtn').disabled=v.trim().length===0;
   }
 
+  // Đẩy nhận xét mới lên Firebase bằng phương thức .push() tự sinh ID ngẫu nhiên không trùng lặp
   function addComment(){
-    var v=document.getElementById('cInput').value.trim();
-    if(!v)return;
-    cmts.push({id:nextId++,a:'Bạn',t:v,time:Date.now(),likes:0,liked:false});
+    var author = document.getElementById('cAuthor').value.trim() || 'Ẩn danh';
+    var text = document.getElementById('cInput').value.trim();
+    if(!text)return;
+    
+    var newCmtData = {
+      author: author,
+      text: text,
+      time: Date.now(),
+      likes: 0
+    };
+
+    // Đẩy lên Firebase Node 'comments'
+    db.ref('comments').push(newCmtData);
+
+    // Lưu lại thông tin máy cục bộ
+    localStorage.setItem('roadcare_author_name', author);
     document.getElementById('cInput').value='';
     document.getElementById('charCount').textContent='0 / 300';
     document.getElementById('sendBtn').disabled=true;
-    renderCmts();
     toast('Đã gửi nhận xét thành công!');
   }
 
@@ -600,9 +678,9 @@
 
   function renderTimeline(){
     var steps=[
-      {label:'Chuẩn bị',time:'T1–T3/2026',done:true,active:false},
-      {label:'Phát triển',time:'T4–T9/2026',done:false,active:true},
-      {label:'Đào tạo & Tiền thí điểm',time:'T10–T12/2026',done:false,active:false},
+      {label:'Chuẩn bị',time:'T1–T3/2024',done:true,active:false},
+      {label:'Phát triển',time:'T4–T9/2024',done:false,active:true},
+      {label:'Đào tạo & Tiền thí điểm',time:'T10–T12/2024',done:false,active:false},
       {label:'Thí điểm',time:'T1–T6/2025',done:false,active:false},
       {label:'Đánh giá & Mở rộng',time:'T7/2025–2027',done:false,active:false}
     ];
@@ -643,7 +721,6 @@
     ctx.fillText('dự án',cx,cy+8);
   }
 
-  renderCmts();
   renderTimeline();
   document.getElementById('sendBtn').disabled=true;
   setTimeout(function(){
