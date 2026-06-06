@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ROADCARE — RoadWatch Việt Nam</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
+  <style>
+    :root {
+      --w-bg: #FDF6EE;
+      --w-card: #FFFAF4;
+      --w-border: rgba(186,117,23,0.18);
+      --w-border2: rgba(186,117,23,0.30);
+      --w-accent: #BA7517;
+      --w-accent2: #D85A30;
+      --w-text: #412402;
+      --w-muted: #854F0B;
+      --w-soft: #FAEEDA;
+      --w-track: #F5DEB8;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: system-ui, sans-serif; background: var(--w-bg); color: var(--w-text); }
+
+    .page { max-width: 720px; margin: 0 auto; padding: 1.5rem 1rem 3rem; }
+
+    /* HERO */
+    .hero { background: linear-gradient(135deg,#BA7517 0%,#993C1D 100%); border-radius: 16px; padding: 1.5rem 1.75rem 1.25rem; margin-bottom: 1.25rem; position: relative; overflow: hidden; }
+    .hero::before { content:''; position:absolute; top:-30px; right:-30px; width:130px; height:130px; border-radius:50%; background:rgba(255,255,255,0.07); }
+    .hero::after { content:''; position:absolute; bottom:-20px; right:40px; width:80px; height:80px; border-radius:50%; background:rgba(255,255,255,0.05); }
+    .hero-badge { display:inline-flex; align-items:center; gap:5px; background:rgba(255,255,255,0.18); color:#FFF3E4; font-size:11px; font-weight:500; padding:3px 10px; border-radius:20px; margin-bottom:10px; letter-spacing:0.04em; }
+    .hero-title { font-size:22px; font-weight:600; color:#FFFAF4; margin:0 0 4px; line-height:1.3; }
+    .hero-sub { font-size:13px; color:#FAC775; line-height:1.5; }
+    .hero-meta { display:flex; gap:16px; margin-top:12px; padding-top:12px; border-top:1px solid rgba(255,255,255,0.15); flex-wrap:wrap; }
+    .hero-stat { font-size:11px; color:rgba(255,243,228,0.8); display:flex; align-items:center; gap:5px; }
+    .hero-stat strong { color:#FFFAF4; font-size:13px; font-weight:600; }
+
+    /* TABS */
+    .tabs { display:flex; gap:6px; margin-bottom:1.25rem; background:var(--w-soft); border-radius:12px; padding:5px; }
+    .tab { flex:1; padding:8px 0; border-radius:9px; border:none; background:transparent; font-size:13px; font-weight:500; color:var(--w-muted); cursor:pointer; transition:all 0.18s; display:flex; align-items:center; justify-content:center; gap:6px; }
+    .tab.active { background:var(--w-card); color:var(--w-accent); box-shadow:0 1px 4px rgba(186,117,23,0.15); border:0.5px solid var(--w-border); }
+    .tab:hover:not(.active) { color:var(--w-text); }
+
+    /* PANELS */
+    .panel { display:none; } .panel.active { display:block; }
+
+    /* METRICS */
+    .metrics { display:grid; grid-template-columns:repeat(auto-fit,minmax(130px,1fr)); gap:10px; margin-bottom:1.25rem; }
+    .mc { background:var(--w-card); border:0.5px solid var(--w-border); border-radius:12px; padding:14px 16px; transition:border-color 0.2s; }
+    .mc:hover { border-color:var(--w-border2); }
+    .mc-icon { font-size:18px; color:var(--w-accent); margin-bottom:6px; display:block; }
+    .mc-label { font-size:11px; color:var(--w-muted); margin-bottom:4px; font-weight:500; letter-spacing:0.03em; }
+    .mc-val { font-size:20px; font-weight:600; color:var(--w-text); line-height:1.1; }
+    .mc-unit { font-size:11px; color:var(--w-muted); font-weight:400; }
+    .mc-delta { font-size:10px; margin-top:3px; color:#3B6D11; display:flex; align-items:center; gap:2px; }
+
+    /* CARD */
+    .card { background:var(--w-card); border:0.5px solid var(--w-border); border-radius:14px; padding:1.25rem 1.5rem; margin-bottom:1.25rem; }
+    .card-title { font-size:14px; font-weight:500; color:var(--w-text); margin-bottom:1rem; display:flex; align-items:center; gap:7px; }
+    .card-title i { color:var(--w-accent); font-size:16px; }
+
+    /* BARS */
+    .bar-wrap { margin-bottom:13px; }
+    .bar-row { display:flex; justify-content:space-between; align-items:center; font-size:12px; color:var(--w-muted); margin-bottom:5px; }
+    .bar-row strong { color:var(--w-text); font-weight:600; font-size:13px; }
+    .bar-track { background:var(--w-track); border-radius:6px; height:10px; overflow:hidden; }
+    .bar-fill { height:100%; border-radius:6px; transition:width 0.9s cubic-bezier(.4,0,.2,1); }
+    .bar-pct { font-size:10px; color:var(--w-muted); margin-top:2px; text-align:right; }
+
+    /* DONUT */
+    .donut-wrap { display:flex; align-items:center; gap:24px; }
+    .donut-legend { flex:1; display:flex; flex-direction:column; gap:8px; }
+    .dl-item { display:flex; align-items:center; gap:8px; font-size:12px; color:var(--w-text); }
+    .dl-dot { width:10px; height:10px; border-radius:50%; flex-shrink:0; }
+    .dl-label { flex:1; }
+    .dl-val { font-weight:600; color:var(--w-text); }
+
+    /* PHASE TABLE */
+    .phase-table { width:100%; border-collapse:collapse; font-size:12px; table-layout:fixed; }
+    .phase-table th { text-align:left; font-size:11px; font-weight:500; color:var(--w-muted); letter-spacing:0.04em; padding:0 8px 8px 0; border-bottom:0.5px solid var(--w-border2); }
+    .phase-table td { padding:9px 8px 9px 0; border-bottom:0.5px solid var(--w-border); vertical-align:top; color:var(--w-text); line-height:1.5; }
+    .phase-table tr:last-child td { border-bottom:none; }
+    .ph-name { display:flex; align-items:center; gap:6px; font-weight:500; white-space:nowrap; }
+    .ph-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
+    .ph-badge { display:inline-block; font-size:10px; padding:2px 7px; border-radius:10px; font-weight:500; margin-top:3px; }
+    .ph-done { background:#EAF3DE; color:#3B6D11; }
+    .ph-active { background:#FAEEDA; color:#633806; }
+    .ph-plan { background:#F1EFE8; color:#5F5E5A; }
+
+    /* SDG */
+    .sdg-tag { display:inline-flex; align-items:center; gap:5px; font-size:11px; font-weight:500; padding:4px 10px; border-radius:20px; margin:3px 4px 3px 0; }
+
+    /* VOTE */
+    .vote-section { text-align:center; }
+    .vote-number { font-size:42px; font-weight:600; color:var(--w-text); line-height:1; margin:0.5rem 0 2px; font-variant-numeric:tabular-nums; }
+    .vote-label { font-size:12px; color:var(--w-muted); margin-bottom:1.25rem; }
+    .vote-btns { display:grid; grid-template-columns:1fr 1fr; gap:10px; max-width:360px; margin:0 auto 1.25rem; }
+    .vbtn { display:flex; align-items:center; justify-content:center; gap:7px; padding:12px 0; border-radius:10px; border:1.5px solid var(--w-border2); background:var(--w-soft); cursor:pointer; font-size:13px; font-weight:500; color:var(--w-text); transition:all 0.15s; }
+    .vbtn:hover { background:#FAC775; border-color:var(--w-accent); transform:translateY(-1px); }
+    .vbtn.active-yes { background:#BA7517; border-color:#BA7517; color:#FFF3E4; }
+    .vbtn.active-no { background:#993C1D; border-color:#993C1D; color:#FAECE7; }
+    .result-wrap { max-width:420px; margin:0 auto; }
+    .result-bar { display:flex; border-radius:8px; overflow:hidden; height:14px; margin-bottom:8px; background:var(--w-track); }
+    .rb-yes { background:#BA7517; transition:width 0.5s ease; }
+    .rb-no  { background:#D85A30; transition:width 0.5s ease; }
+    .result-legend { display:flex; gap:20px; font-size:12px; color:var(--w-muted); justify-content:center; }
+    .rl-dot { width:10px; height:10px; border-radius:50%; display:inline-block; margin-right:5px; vertical-align:middle; }
+
+    /* FILTER */
+    .filter-row { display:flex; gap:8px; margin-bottom:12px; flex-wrap:wrap; align-items:center; }
+    .filter-chip { font-size:11px; padding:4px 10px; border-radius:20px; border:0.5px solid var(--w-border2); background:var(--w-soft); color:var(--w-muted); cursor:pointer; transition:all 0.15s; font-weight:500; }
+    .filter-chip.active, .filter-chip:hover { background:var(--w-accent); color:#FFF3E4; border-color:var(--w-accent); }
+
+    /* COMMENT */
+    textarea { background:var(--w-soft); border:1px solid var(--w-border2); border-radius:10px; padding:10px 12px; font-size:13px; color:var(--w-text); width:100%; resize:vertical; min-height:68px; outline:none; margin-bottom:8px; font-family:inherit; }
+    textarea::placeholder { color:var(--w-muted); }
+    textarea:focus { border-color:var(--w-accent); }
+    .cmt-actions { display:flex; align-items:center; justify-content:space-between; margin-bottom:8px; }
+    .char-count { font-size:11px; color:var(--w-muted); }
+    .send-btn { display:flex; align-items:center; justify-content:center; gap:6px; padding:9px 20px; border-radius:10px; border:1.5px solid var(--w-border2); background:var(--w-soft); cursor:pointer; font-size:13px; font-weight:500; color:var(--w-text); transition:background 0.15s; }
+    .send-btn:hover { background:#FAC775; }
+    .send-btn:disabled { opacity:0.5; cursor:not-allowed; }
+
+    .cmt-list { margin-top:14px; }
+    .cmt-item { padding:11px 0; border-bottom:0.5px solid var(--w-border); animation:fadeIn 0.3s ease; }
+    .cmt-item:last-child { border-bottom:none; }
+    .cmt-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:4px; }
+    .cmt-author { font-size:11px; font-weight:500; color:var(--w-muted); display:flex; align-items:center; gap:4px; }
+    .cmt-time { font-size:10px; color:var(--w-muted); opacity:0.7; }
+    .cmt-text { font-size:13px; color:var(--w-text); line-height:1.55; margin-bottom:6px; }
+    .cmt-like { font-size:11px; color:var(--w-muted); cursor:pointer; display:flex; align-items:center; gap:3px; transition:color 0.15s; padding:2px 0; background:none; border:none; font-family:inherit; }
+    .cmt-like:hover, .cmt-like.liked { color:var(--w-accent2); }
+
+    /* SEARCH */
+    .search-wrap { position:relative; margin-bottom:12px; }
+    .search-wrap i { position:absolute; left:10px; top:50%; transform:translateY(-50%); font-size:14px; color:var(--w-muted); pointer-events:none; }
+    .search-wrap input { width:100%; padding:9px 12px 9px 32px; border:0.5px solid var(--w-border2); border-radius:10px; font-size:13px; color:var(--w-text); background:var(--w-soft); outline:none; font-family:inherit; }
+    .search-wrap input:focus { border-color:var(--w-accent); }
+
+    /* SHARE */
+    .share-row { display:flex; gap:8px; margin-top:12px; padding-top:12px; border-top:0.5px solid var(--w-border); }
+    .share-btn { flex:1; display:flex; align-items:center; justify-content:center; gap:5px; padding:8px 0; border-radius:9px; border:0.5px solid var(--w-border2); background:var(--w-soft); cursor:pointer; font-size:12px; font-weight:500; color:var(--w-muted); transition:all 0.15s; }
+    .share-btn:hover { background:#FAC775; color:var(--w-text); border-color:var(--w-accent); }
+
+    /* TOAST */
+    .toast-wrap { position:fixed; bottom:24px; right:24px; pointer-events:none; z-index:999; }
+    .toast { background:#BA7517; color:#FFFAF4; font-size:12px; font-weight:500; padding:10px 18px; border-radius:10px; opacity:0; transition:opacity 0.3s; display:inline-flex; align-items:center; gap:7px; box-shadow:0 4px 16px rgba(186,117,23,0.3); }
+    .toast.show { opacity:1; }
+
+    .empty-cmt { text-align:center; padding:20px 0; color:var(--w-muted); font-size:13px; }
+
+    @keyframes fadeIn { from{opacity:0;transform:translateY(4px)} to{opacity:1;transform:none} }
+  </style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-badge"><i class="ti ti-road"></i> Dự án SDG 9 · Giao thông thông minh</div>
+    <div class="hero-title">ROADCARE — RoadWatch Việt Nam</div>
+    <div class="hero-sub">Nền tảng thông báo &amp; giám sát các tuyến đường xuống cấp trên toàn quốc</div>
+    <div class="hero-meta">
+      <div class="hero-stat"><i class="ti ti-calendar"></i><strong>2024–2027</strong> Lộ trình</div>
+      <div class="hero-stat"><i class="ti ti-map-pin"></i><strong>63</strong> tỉnh thành</div>
+      <div class="hero-stat"><i class="ti ti-users"></i><strong>10M+</strong> người dùng kỳ vọng</div>
+    </div>
+  </div>
+
+  <!-- TABS -->
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('overview')" id="t-overview"><i class="ti ti-dashboard"></i> Tổng quan</button>
+    <button class="tab" onclick="showTab('roadmap')" id="t-roadmap"><i class="ti ti-list-check"></i> Lộ trình</button>
+    <button class="tab" onclick="showTab('vote')" id="t-vote"><i class="ti ti-thumb-up"></i> Bình chọn</button>
+    <button class="tab" onclick="showTab('discuss')" id="t-discuss"><i class="ti ti-message"></i> Thảo luận</button>
+  </div>
+
+  <!-- PANEL: OVERVIEW -->
+  <div class="panel active" id="panel-overview">
+
+    <div class="metrics">
+      <div class="mc">
+        <i class="ti ti-message-circle mc-icon"></i>
+        <p class="mc-label">Lượt phản ánh</p>
+        <p class="mc-val">100.000 <span class="mc-unit">/ năm đầu</span></p>
+        <p class="mc-delta"><i class="ti ti-trending-up"></i> Mục tiêu năm 1</p>
+      </div>
+      <div class="mc">
+        <i class="ti ti-circle-check mc-icon"></i>
+        <p class="mc-label">Tỷ lệ xác minh</p>
+        <p class="mc-val">90 <span class="mc-unit">%</span></p>
+        <p class="mc-delta"><i class="ti ti-trending-up"></i> Độ chính xác AI</p>
+      </div>
+      <div class="mc">
+        <i class="ti ti-clock mc-icon"></i>
+        <p class="mc-label">Giảm phát hiện</p>
+        <p class="mc-val">30 <span class="mc-unit">%</span></p>
+        <p class="mc-delta"><i class="ti ti-trending-up"></i> So với hiện tại</p>
+      </div>
+      <div class="mc">
+        <i class="ti ti-map-pin mc-icon"></i>
+        <p class="mc-label">Điểm xử lý</p>
+        <p class="mc-val">10.000 <span class="mc-unit">/ năm</span></p>
+        <p class="mc-delta"><i class="ti ti-trending-up"></i> Toàn quốc</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <p class="card-title"><i class="ti ti-chart-bar"></i>KPI dự kiến theo mục tiêu triển khai</p>
+      <div class="bar-wrap">
+        <div class="bar-row"><span>Lượt phản ánh năm đầu</span><strong>100.000</strong></div>
+        <div class="bar-track"><div class="bar-fill" id="b1" style="width:0%;background:#BA7517;"></div></div>
+        <div class="bar-pct">85% so với kịch bản tối ưu</div>
+      </div>
+      <div class="bar-wrap">
+        <div class="bar-row"><span>Tỷ lệ phản ánh được xác minh</span><strong>90%</strong></div>
+        <div class="bar-track"><div class="bar-fill" id="b2" style="width:0%;background:#D85A30;"></div></div>
+        <div class="bar-pct">90% chính xác từ mô hình AI</div>
+      </div>
+      <div class="bar-wrap">
+        <div class="bar-row"><span>Giảm thời gian phát hiện hư hỏng</span><strong>30%</strong></div>
+        <div class="bar-track"><div class="bar-fill" id="b3" style="width:0%;background:#EF9F27;"></div></div>
+        <div class="bar-pct">So sánh với quy trình thủ công</div>
+      </div>
+      <div class="bar-wrap" style="margin-bottom:0">
+        <div class="bar-row"><span>Điểm đường xuống cấp xử lý / năm</span><strong>10.000</strong></div>
+        <div class="bar-track"><div class="bar-fill" id="b4" style="width:0%;background:#993C1D;"></div></div>
+        <div class="bar-pct">70% năng lực xử lý ước tính</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <p class="card-title"><i class="ti ti-chart-donut"></i>Phân bổ ngân sách dự án (ước tính)</p>
+      <div class="donut-wrap">
+        <canvas id="donutCanvas" width="140" height="140" style="flex-shrink:0;"></canvas>
+        <div class="donut-legend">
+          <div class="dl-item"><span class="dl-dot" style="background:#BA7517;"></span><span class="dl-label">Phát triển phần mềm</span><span class="dl-val">40%</span></div>
+          <div class="dl-item"><span class="dl-dot" style="background:#D85A30;"></span><span class="dl-label">Hạ tầng &amp; server</span><span class="dl-val">25%</span></div>
+          <div class="dl-item"><span class="dl-dot" style="background:#EF9F27;"></span><span class="dl-label">Đào tạo &amp; triển khai</span><span class="dl-val">20%</span></div>
+          <div class="dl-item"><span class="dl-dot" style="background:#993C1D;"></span><span class="dl-label">Vận hành &amp; bảo trì</span><span class="dl-val">15%</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <p class="card-title"><i class="ti ti-link"></i>Liên hệ mục tiêu SDG 9</p>
+      <span class="sdg-tag" style="background:#FAEEDA;color:#633806;"><i class="ti ti-building" style="font-size:12px;"></i>9.1 — Hạ tầng chất lượng &amp; bền vững</span>
+      <span class="sdg-tag" style="background:#F5C4B3;color:#712B13;"><i class="ti ti-bulb" style="font-size:12px;"></i>9.5 — Đổi mới sáng tạo &amp; công nghệ</span>
+      <span class="sdg-tag" style="background:#CECBF6;color:#26215C;"><i class="ti ti-wifi" style="font-size:12px;"></i>9.c — Tiếp cận công nghệ số</span>
+    </div>
+
+  </div>
+
+  <!-- PANEL: ROADMAP -->
+  <div class="panel" id="panel-roadmap">
+
+    <div class="card">
+      <p class="card-title"><i class="ti ti-list-check"></i>Lộ trình triển khai 5 giai đoạn</p>
+      <table class="phase-table">
+        <thead>
+          <tr>
+            <th style="width:32%;">Giai đoạn</th>
+            <th style="width:18%;">Thời gian</th>
+            <th>Nội dung chính</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <div class="ph-name"><span class="ph-dot" style="background:#BA7517;"></span>Chuẩn bị</div>
+              <span class="ph-badge ph-done">Hoàn thành</span>
+            </td>
+            <td style="font-size:11px;color:var(--w-muted);">T1–T3/2024</td>
+            <td>Khảo sát nhu cầu · Xây dựng yêu cầu kỹ thuật · Thiết kế CSDL và giao diện</td>
+          </tr>
+          <tr>
+            <td>
+              <div class="ph-name"><span class="ph-dot" style="background:#D85A30;"></span>Phát triển</div>
+              <span class="ph-badge ph-active">Đang thực hiện</span>
+            </td>
+            <td style="font-size:11px;color:var(--w-muted);">T4–T9/2024</td>
+            <td>Lập trình website &amp; app · Tích hợp bản đồ, GPS · Xây dựng mô hình AI nhận diện hư hỏng</td>
+          </tr>
+          <tr>
+            <td>
+              <div class="ph-name"><span class="ph-dot" style="background:#EF9F27;"></span>Đào tạo &amp; Tiền thí điểm</div>
+              <span class="ph-badge ph-plan">Kế hoạch</span>
+            </td>
+            <td style="font-size:11px;color:var(--w-muted);">T10–T12/2024</td>
+            <td>Hướng dẫn cán bộ · Kiểm thử chức năng phản ánh và xử lý dữ liệu</td>
+          </tr>
+          <tr>
+            <td>
+              <div class="ph-name"><span class="ph-dot" style="background:#993C1D;"></span>Thí điểm</div>
+              <span class="ph-badge ph-plan">Kế hoạch</span>
+            </td>
+            <td style="font-size:11px;color:var(--w-muted);">T1–T6/2025</td>
+            <td>Triển khai tại 3–5 tỉnh/thành phố · Thu thập phản ánh · Đánh giá AI và hiệu quả xử lý</td>
+          </tr>
+          <tr>
+            <td>
+              <div class="ph-name"><span class="ph-dot" style="background:#7F77DD;"></span>Đánh giá &amp; Mở rộng</div>
+              <span class="ph-badge ph-plan">Kế hoạch</span>
+            </td>
+            <td style="font-size:11px;color:var(--w-muted);">T7/2025–2027</td>
+            <td>Hoàn thiện theo dữ liệu thực tế · Mở rộng toàn quốc · Kết nối CSDL giao thông quốc gia</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card">
+      <p class="card-title"><i class="ti ti-timeline"></i>Tiến độ tổng thể</p>
+      <div style="position:relative;padding-left:16px;margin-left:8px;">
+        <div style="position:absolute;left:0;top:8px;bottom:8px;width:2px;background:var(--w-track);border-radius:2px;"></div>
+        <div id="tl-steps"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- PANEL: VOTE -->
+  <div class="panel" id="panel-vote">
+
+    <div class="card">
+      <p class="card-title"><i class="ti ti-thumb-up"></i>Bình chọn — Bạn ủng hộ dự án này?</p>
+      <div class="vote-section">
+        <div class="vote-number" id="vTotal">0</div>
+        <p class="vote-label">tổng lượt bình chọn</p>
+        <div class="vote-btns">
+          <button class="vbtn" id="btnY" onclick="vote('yes')"><i class="ti ti-thumb-up"></i> Ủng hộ</button>
+          <button class="vbtn" id="btnN" onclick="vote('no')"><i class="ti ti-thumb-down"></i> Không ủng hộ</button>
+        </div>
+        <div class="result-wrap" id="resultWrap" style="display:none;">
+          <div class="result-bar">
+            <div class="rb-yes" id="rbY" style="width:0%;"></div>
+            <div class="rb-no"  id="rbN" style="width:0%;"></div>
+          </div>
+          <div class="result-legend">
+            <span><span class="rl-dot" style="background:#BA7517;"></span><span id="pY">0%</span> ủng hộ (<span id="cY">0</span>)</span>
+            <span><span class="rl-dot" style="background:#D85A30;"></span><span id="pN">0%</span> không (<span id="cN">0</span>)</span>
+          </div>
+        </div>
+      </div>
+      <div class="share-row">
+        <button class="share-btn" onclick="copyLink()"><i class="ti ti-link"></i> Sao chép link</button>
+        <button class="share-btn" onclick="shareVote()"><i class="ti ti-share"></i> Chia sẻ kết quả</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <p class="card-title"><i class="ti ti-poll"></i>Khảo sát nhanh — Bạn thường gặp vấn đề giao thông nào?</p>
+      <div id="poll-options" style="display:flex;flex-direction:column;gap:8px;"></div>
+      <div id="poll-result" style="display:none;margin-top:12px;"></div>
+    </div>
+
+  </div>
+
+  <!-- PANEL: DISCUSS -->
+  <div class="panel" id="panel-discuss">
+
+    <div class="card">
+      <p class="card-title"><i class="ti ti-message"></i>Ý kiến &amp; nhận xét</p>
+      <textarea id="cInput" placeholder="Chia sẻ ý kiến của bạn về dự án ROADCARE..." maxlength="300" oninput="updateChar()"></textarea>
+      <div class="cmt-actions">
+        <span class="char-count" id="charCount">0 / 300</span>
+        <button class="send-btn" id="sendBtn" onclick="addComment()"><i class="ti ti-send"></i> Gửi nhận xét</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <p class="card-title"><i class="ti ti-messages"></i>Tất cả nhận xét (<span id="cCount">0</span>)</p>
+      <div class="search-wrap">
+        <i class="ti ti-search"></i>
+        <input type="text" placeholder="Tìm kiếm nhận xét..." id="cSearch" oninput="renderCmts()" />
+      </div>
+      <div class="filter-row">
+        <span style="font-size:11px;color:var(--w-muted);font-weight:500;">Sắp xếp:</span>
+        <button class="filter-chip active" onclick="setSort('new',this)">Mới nhất</button>
+        <button class="filter-chip" onclick="setSort('old',this)">Cũ nhất</button>
+        <button class="filter-chip" onclick="setSort('like',this)">Nhiều thích nhất</button>
+      </div>
+      <div class="cmt-list" id="cList"></div>
+    </div>
+
+  </div>
+
+</div>
+
+<!-- TOAST -->
+<div class="toast-wrap"><div class="toast" id="toast"><i class="ti ti-check"></i><span id="toastMsg"></span></div></div>
+
+<script>
+  var votes={yes:0,no:0},uv=null,sortMode='new';
+  var cmts=[
+    {id:1,a:'Nguyễn Văn A',t:'Ý tưởng rất thực tế, đặc biệt tính năng AI nhận diện ổ gà. Rất cần thiết ở các tỉnh miền núi.',time:Date.now()-3600000,likes:5,liked:false},
+    {id:2,a:'Trần Thị B',t:'Nên tích hợp thêm với hệ thống 1022 hiện có để tránh chồng chéo dữ liệu.',time:Date.now()-7200000,likes:3,liked:false},
+    {id:3,a:'Lê Minh C',t:'Cần có cơ chế phản hồi từ cơ quan chức năng để người dân biết phản ánh của mình được xử lý.',time:Date.now()-86400000,likes:8,liked:false}
+  ];
+  var nextId=4;
+
+  var pollVoted=false;
+  var pollData=[
+    {label:'Ổ gà, mặt đường hư hỏng',votes:0},
+    {label:'Ngập lụt, thoát nước kém',votes:0},
+    {label:'Thiếu đèn đường, biển báo',votes:0},
+    {label:'Lề đường, vỉa hè xuống cấp',votes:0}
+  ];
+
+  function toast(msg){
+    document.getElementById('toastMsg').textContent=msg;
+    var el=document.getElementById('toast');
+    el.classList.add('show');
+    setTimeout(function(){el.classList.remove('show');},2400);
+  }
+
+  function showTab(name){
+    document.querySelectorAll('.panel').forEach(function(p){p.classList.remove('active');});
+    document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active');});
+    document.getElementById('panel-'+name).classList.add('active');
+    document.getElementById('t-'+name).classList.add('active');
+  }
+
+  function vote(t){
+    if(uv===t){votes[t]--;uv=null;}
+    else{if(uv)votes[uv]--;votes[t]++;uv=t;toast(t==='yes'?'Đã ghi nhận — ủng hộ!':'Đã ghi nhận — không ủng hộ');}
+    document.getElementById('btnY').className='vbtn'+(uv==='yes'?' active-yes':'');
+    document.getElementById('btnN').className='vbtn'+(uv==='no'?' active-no':'');
+    var tot=votes.yes+votes.no;
+    document.getElementById('vTotal').textContent=tot.toLocaleString('vi-VN');
+    if(tot===0){document.getElementById('resultWrap').style.display='none';return;}
+    document.getElementById('resultWrap').style.display='block';
+    var pY=Math.round(votes.yes/tot*100),pN=100-pY;
+    document.getElementById('rbY').style.width=pY+'%';
+    document.getElementById('rbN').style.width=pN+'%';
+    document.getElementById('pY').textContent=pY+'%';
+    document.getElementById('pN').textContent=pN+'%';
+    document.getElementById('cY').textContent=votes.yes;
+    document.getElementById('cN').textContent=votes.no;
+  }
+
+  function timeAgo(ts){
+    var d=(Date.now()-ts)/1000;
+    if(d<60)return'vừa xong';
+    if(d<3600)return Math.round(d/60)+' phút trước';
+    if(d<86400)return Math.round(d/3600)+' giờ trước';
+    return Math.round(d/86400)+' ngày trước';
+  }
+
+  function setSort(mode,el){
+    sortMode=mode;
+    document.querySelectorAll('.filter-chip').forEach(function(c){c.classList.remove('active');});
+    el.classList.add('active');
+    renderCmts();
+  }
+
+  function renderCmts(){
+    var q=(document.getElementById('cSearch')||{value:''}).value.toLowerCase();
+    var list=cmts.slice().filter(function(c){return c.t.toLowerCase().includes(q)||c.a.toLowerCase().includes(q);});
+    if(sortMode==='new')list.sort(function(a,b){return b.time-a.time;});
+    else if(sortMode==='old')list.sort(function(a,b){return a.time-b.time;});
+    else list.sort(function(a,b){return b.likes-a.likes;});
+    document.getElementById('cCount').textContent=cmts.length;
+    if(list.length===0){document.getElementById('cList').innerHTML='<div class="empty-cmt"><i class="ti ti-message-off" style="font-size:24px;display:block;margin-bottom:6px;"></i>Không tìm thấy nhận xét</div>';return;}
+    document.getElementById('cList').innerHTML=list.map(function(c){
+      return '<div class="cmt-item">'+
+        '<div class="cmt-header">'+
+          '<div class="cmt-author"><i class="ti ti-user-circle" style="font-size:13px;"></i>'+c.a+'</div>'+
+          '<span class="cmt-time">'+timeAgo(c.time)+'</span>'+
+        '</div>'+
+        '<p class="cmt-text">'+c.t+'</p>'+
+        '<button class="cmt-like'+(c.liked?' liked':'')+'" onclick="likeComment('+c.id+')">'+
+          '<i class="ti ti-heart'+(c.liked?'-filled':'')+'" style="font-size:12px;"></i> '+c.likes+' thích'+
+        '</button>'+
+      '</div>';
+    }).join('');
+  }
+
+  function likeComment(id){
+    var c=cmts.find(function(x){return x.id===id;});
+    if(!c)return;
+    c.liked=!c.liked;
+    c.likes+=c.liked?1:-1;
+    renderCmts();
+  }
+
+  function updateChar(){
+    var v=document.getElementById('cInput').value;
+    document.getElementById('charCount').textContent=v.length+' / 300';
+    document.getElementById('sendBtn').disabled=v.trim().length===0;
+  }
+
+  function addComment(){
+    var v=document.getElementById('cInput').value.trim();
+    if(!v)return;
+    cmts.push({id:nextId++,a:'Bạn',t:v,time:Date.now(),likes:0,liked:false});
+    document.getElementById('cInput').value='';
+    document.getElementById('charCount').textContent='0 / 300';
+    document.getElementById('sendBtn').disabled=true;
+    renderCmts();
+    toast('Đã gửi nhận xét thành công!');
+  }
+
+  function copyLink(){
+    navigator.clipboard&&navigator.clipboard.writeText('https://roadcare.vn/vote').catch(function(){});
+    toast('Đã sao chép link!');
+  }
+
+  function shareVote(){
+    var tot=votes.yes+votes.no;
+    var msg=tot===0?'Hãy bình chọn cho ROADCARE tại roadcare.vn/vote':'ROADCARE: '+Math.round(votes.yes/(tot||1)*100)+'% ủng hộ từ '+tot+' lượt bình chọn — roadcare.vn/vote';
+    navigator.clipboard&&navigator.clipboard.writeText(msg).catch(function(){});
+    toast('Đã sao chép kết quả!');
+  }
+
+  function renderPoll(){
+    var container=document.getElementById('poll-options');
+    if(pollVoted){
+      var total=pollData.reduce(function(s,p){return s+p.votes;},0)||1;
+      document.getElementById('poll-result').style.display='block';
+      document.getElementById('poll-result').innerHTML=pollData.map(function(p){
+        var pct=Math.round(p.votes/total*100);
+        return '<div style="margin-bottom:10px;">'+
+          '<div style="display:flex;justify-content:space-between;font-size:12px;color:var(--w-text);margin-bottom:4px;">'+
+            '<span>'+p.label+'</span><strong>'+pct+'%</strong></div>'+
+          '<div style="background:var(--w-track);border-radius:6px;height:8px;overflow:hidden;">'+
+            '<div style="width:'+pct+'%;height:100%;background:#BA7517;border-radius:6px;transition:width 0.7s ease;"></div></div>'+
+        '</div>';
+      }).join('');
+      container.innerHTML='<p style="font-size:12px;color:var(--w-muted);"><i class="ti ti-check"></i> Cảm ơn đã tham gia khảo sát!</p>';
+    } else {
+      container.innerHTML=pollData.map(function(p,i){
+        return '<button onclick="pollVote('+i+')" style="text-align:left;width:100%;padding:10px 14px;border-radius:9px;border:0.5px solid var(--w-border2);background:var(--w-soft);font-size:13px;color:var(--w-text);cursor:pointer;font-family:inherit;transition:all 0.15s;" onmouseover="this.style.background=\'#FAC775\'" onmouseout="this.style.background=\'var(--w-soft)\'">'+p.label+'</button>';
+      }).join('');
+    }
+  }
+
+  function pollVote(i){
+    if(pollVoted)return;
+    pollData[i].votes++;
+    pollData[0].votes+=2;pollData[2].votes+=1;pollData[3].votes+=1;
+    pollVoted=true;
+    renderPoll();
+    toast('Đã ghi nhận ý kiến khảo sát!');
+  }
+
+  function renderTimeline(){
+    var steps=[
+      {label:'Chuẩn bị',time:'T1–T3/2024',done:true,active:false},
+      {label:'Phát triển',time:'T4–T9/2024',done:false,active:true},
+      {label:'Đào tạo & Tiền thí điểm',time:'T10–T12/2024',done:false,active:false},
+      {label:'Thí điểm',time:'T1–T6/2025',done:false,active:false},
+      {label:'Đánh giá & Mở rộng',time:'T7/2025–2027',done:false,active:false}
+    ];
+    var colors=['#BA7517','#D85A30','#EF9F27','#993C1D','#7F77DD'];
+    document.getElementById('tl-steps').innerHTML=steps.map(function(s,i){
+      return '<div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:'+(i<steps.length-1?'18px':'0')+';padding-left:12px;position:relative;">'+
+        '<div style="position:absolute;left:-8px;top:2px;width:14px;height:14px;border-radius:50%;background:'+(s.done?colors[i]:s.active?colors[i]:'var(--w-track)')+';border:2px solid '+(s.done||s.active?colors[i]:'var(--w-border2)')+';flex-shrink:0;"></div>'+
+        '<div>'+
+          '<div style="font-size:12px;font-weight:500;color:var(--w-text);">'+s.label+'</div>'+
+          '<div style="font-size:11px;color:var(--w-muted);">'+s.time+(s.done?' · <span style="color:#3B6D11;font-weight:500;">Hoàn thành</span>':s.active?' · <span style="color:#633806;font-weight:500;">Đang thực hiện</span>':'')+' </div>'+
+        '</div>'+
+      '</div>';
+    }).join('');
+  }
+
+  function drawDonut(){
+    var canvas=document.getElementById('donutCanvas');
+    if(!canvas)return;
+    var ctx=canvas.getContext('2d');
+    var data=[40,25,20,15];
+    var colors=['#BA7517','#D85A30','#EF9F27','#993C1D'];
+    var total=data.reduce(function(a,b){return a+b;},0);
+    var cx=70,cy=70,r=58,inner=36;
+    var start=-Math.PI/2;
+    ctx.clearRect(0,0,140,140);
+    data.forEach(function(v,i){
+      var angle=v/total*Math.PI*2;
+      ctx.beginPath();ctx.moveTo(cx,cy);
+      ctx.arc(cx,cy,r,start,start+angle);
+      ctx.closePath();ctx.fillStyle=colors[i];ctx.fill();
+      ctx.beginPath();ctx.arc(cx,cy,inner,0,Math.PI*2);
+      ctx.fillStyle='#FFFAF4';ctx.fill();
+      start+=angle;
+    });
+    ctx.fillStyle='#412402';ctx.font='600 13px system-ui';ctx.textAlign='center';ctx.textBaseline='middle';
+    ctx.fillText('Ngân sách',cx,cy-7);
+    ctx.fillStyle='#854F0B';ctx.font='400 11px system-ui';
+    ctx.fillText('dự án',cx,cy+8);
+  }
+
+  renderCmts();
+  renderPoll();
+  renderTimeline();
+  document.getElementById('sendBtn').disabled=true;
+  setTimeout(function(){
+    document.getElementById('b1').style.width='85%';
+    document.getElementById('b2').style.width='90%';
+    document.getElementById('b3').style.width='30%';
+    document.getElementById('b4').style.width='70%';
+    drawDonut();
+  },400);
+</script>
+
+</body>
+</html>
